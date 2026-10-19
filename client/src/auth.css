@@ -1,0 +1,49 @@
+.required-note {
+  margin: -12px 0 12px !important;
+  color: var(--muted);
+  font-size: 10px !important;
+}
+
+.required-star {
+  color: #b8533f;
+  font-weight: 800;
+}
+
+.field-hint {
+  color: var(--muted);
+  font-size: 9px;
+  font-weight: 400;
+  line-height: 1.5;
+}
+
+.auth-form .form-error,
+.auth-form .form-success {
+  margin: 12px 0;
+  padding: 11px 13px;
+  border: 1px solid;
+  border-radius: 2px;
+  font-size: 11px;
+  line-height: 1.55;
+}
+
+.auth-form .form-success {
+  color: var(--deep);
+  background: #edf5ec;
+  border-color: #d5e5d3;
+}
+
+.dev-reset-link {
+  display: flex;
+  width: fit-content;
+  margin-top: 8px;
+  color: var(--green);
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.auth-form label > span:first-child {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 3px;
+}

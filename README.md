@@ -55,7 +55,15 @@ Provider “recovered revenue” is the sum of `total` for reservations marked c
 
 ## Deployment
 
-Deploy the API and client as separate services. Provide `MONGODB_URI`, a high-entropy `JWT_SECRET`, `CLIENT_ORIGIN`, and `PORT` to the API. Build the client with `npm run build -w client` and set `VITE_API_URL` to the deployed API's `/api` URL at build time. Serve the generated `client/dist` through a static host with SPA fallback routing. Use TLS, managed MongoDB backups, restricted database network access, and secret management from the hosting platform. The included Docker Compose file is for local development; use the same environment variables in production.
+The repository includes a Render Blueprint (`render.yaml`) for a free API web service and a free static client site. The client is configured to call the API, and client-side routes rewrite to `index.html`. Free Render web services sleep after 15 minutes without requests, so the first request after a quiet period can take longer. Free hosting is intended for learning and previews, not production workloads.
+
+1. Push this repository to GitHub, then sign in to Render and choose **New → Blueprint**. Connect `HimanshiBabbar18/LastPlate` on the `main` branch and apply the Blueprint.
+2. Create a MongoDB Atlas database (the free M0 tier is sufficient for a demo). Add a database user, copy its connection string, and replace the placeholders with that user's credentials and the database name `lastplate`.
+3. When Render asks for `MONGODB_URI`, paste the Atlas connection string. Render generates the `JWT_SECRET` and supplies the other values. Keep the database URI and generated secret private.
+4. In Atlas **Network Access**, allow the outbound IP addresses shown in the Render API service settings. Avoid allowing all IP addresses. Wait for both Render services to finish deploying, then open `https://lastplate-himanshi-web.onrender.com` and check the API at `https://lastplate-himanshi-api.onrender.com/api/health`.
+5. If Render changes either service's generated hostname because that name is already in use, update the API's `CLIENT_ORIGIN` to the actual static-site URL and the static site's `VITE_API_URL` to the actual API URL ending in `/api`, then redeploy both services.
+
+Password reset needs an email provider. Until SMTP is configured, account creation and the core marketplace can run, but reset emails cannot be sent. To enable them, add `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, and `MAIL_FROM` under the API service's environment settings in Render, then redeploy. Keep `PASSWORD_RESET_ALLOW_DEV_LINKS=false` in production. The included Docker Compose file is for local development only.
 
 ## Current boundaries
 

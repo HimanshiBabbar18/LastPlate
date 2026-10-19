@@ -1,0 +1,32 @@
+services:
+  - type: web
+    name: lastplate-himanshi-api
+    runtime: node
+    plan: free
+    buildCommand: npm ci
+    startCommand: npm run start -w server
+    healthCheckPath: /api/health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: MONGODB_URI
+        sync: false
+      - key: JWT_SECRET
+        generateValue: true
+      - key: CLIENT_ORIGIN
+        value: https://lastplate-himanshi-web.onrender.com
+      - key: PASSWORD_RESET_ALLOW_DEV_LINKS
+        value: "false"
+
+  - type: web
+    name: lastplate-himanshi-web
+    runtime: static
+    buildCommand: npm ci && npm run build -w client
+    staticPublishPath: ./client/dist
+    envVars:
+      - key: VITE_API_URL
+        value: https://lastplate-himanshi-api.onrender.com/api
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
